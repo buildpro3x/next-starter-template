@@ -1,11 +1,14 @@
 name = "stone4go"
-compatibility_date = "2025-07-28"  # Updated to today's date
+compatibility_date = "2025-07-28"
 main = "worker.js"
 
+# Cloudflare Pages integration (for static assets)
 [pages]
 bucket = "./public"
+include = ["**/*"]
+exclude = ["node_modules"]
 
-# Uncomment if using R2
+# R2 Storage for OCR results
 [[r2_buckets]]
 binding = "MY_BUCKET"
 bucket_name = "stone4go-ocr-storage"
