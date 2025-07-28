@@ -1,0 +1,11 @@
+name = "stone4go"
+compatibility_date = "2025-07-28"  # Updated to today's date
+main = "worker.js"
+
+[pages]
+bucket = "./public"
+
+# Uncomment if using R2
+[[r2_buckets]]
+binding = "MY_BUCKET"
+bucket_name = "stone4go-ocr-storage"
