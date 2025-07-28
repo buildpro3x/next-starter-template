@@ -1,0 +1,66 @@
+// worker.js - Cloudflare Worker with 3D Earth + OCR
+export default {
+  async fetch(request, env) {
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Stone4Go OCR</title>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+          <style>
+            body { margin: 0; }
+            #earth { position: absolute; top: 0; left: 0; }
+            #upload-ui { position: absolute; top: 20px; left: 20px; z-index: 100; background: rgba(255,255,255,0.8); padding: 10px; }
+          </style>
+        </head>
+        <body>
+          <div id="earth"></div>
+          <div id="upload-ui">
+            <input type="file" id="upload" accept="image/*" />
+            <button onclick="runOCR()">Extract Text</button>
+            <pre id="result"></pre>
+          </div>
+          <script>
+            // 3D Earth
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(innerWidth, innerHeight);
+            document.getElementById('earth').appendChild(renderer.domElement);
+            
+            const earth = new THREE.Mesh(
+              new THREE.SphereGeometry(5, 32, 32),
+              new THREE.MeshBasicMaterial({ 
+                map: new THREE.TextureLoader().load("https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg") 
+              })
+            );
+            scene.add(earth);
+            camera.position.z = 10;
+
+            function animate() {
+              requestAnimationFrame(animate);
+              earth.rotation.y += 0.01;
+              renderer.render(scene, camera);
+            }
+            animate();
+
+            // OCR
+            async function runOCR() {
+              const file = document.getElementById('upload').files[0];
+              const { data: { text } } = await Tesseract.recognize(file);
+              document.getElementById('result').innerText = text;
+              
+              // Optional: Save to Cloudflare R2
+              await fetch('/save-text', {
+                method: 'POST',
+                body: JSON.stringify({ text, userId: 'demo-user' })
+              });
+            }
+          </script>
+        </body>
+      </html>
+    `;
+    return new Response(html, { headers: { "Content-Type": "text/html" } });
+  }
+};
