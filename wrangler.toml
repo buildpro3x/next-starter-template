@@ -1,5 +1,5 @@
 name = "next-starter-template"
-compatibility_date = "2025-07-28"
+compatibility_date = "2025-07-29"
 node_compat = true  # Required if using Node.js-specific features
 
 [build]
