@@ -1,4 +1,5 @@
-main = "worker.js"
+# 🔧 Main Worker script
+main = "functions/upload.js"
 name = "visual-app"
 compatibility_date = "2025-07-29"
 node_compat = true  # Required if using Node.js-specific features
@@ -10,14 +11,26 @@ upload_dir = "dist"  # Or your build output directory
 [triggers]
 crons = ["*/10 * * * *"]  # Optional: Add scheduled cron jobs
 
-# Cloudflare Pages integration (for static assets)
+# 🌐 Cloudflare Pages integration (for static assets)
 [pages]
 bucket = "./public"
 include = ["**/*"]
 exclude = ["node_modules", ".env*"]
 
-# R2 Storage for OCR results
+# 📦 R2 Storage for OCR results
 [[r2_buckets]]
-binding = "OCR_STORAGE"  # Changed from MY_BUCKET for clarity
+binding = "OCR_STORAGE"
 bucket_name = "next-starter-template-ocr-storage"
-preview_bucket_name = "next-starter-template-ocr-storage-preview"  # For development
+preview_bucket_name = "next-starter-template-ocr-storage-preview"
+
+# 📸 R2 Storage for quarry photo + spec uploads
+[[r2_buckets]]
+binding = "SUBSCRIBER_UPLOADS"
+bucket_name = "subscriber-upload-storage"
+preview_bucket_name = "subscriber-upload-storage-preview"
+
+# 🧠 D1 Database for quarry metadata and document tracking
+[[d1_databases]]
+binding = "DB"
+database_name = "quarry_archive"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
