@@ -1,14 +1,22 @@
 name = "next-starter-template"
 compatibility_date = "2025-07-28"
-main = "worker.js"
+node_compat = true  # Required if using Node.js-specific features
+
+[build]
+command = "npm install && npm run build"
+upload_dir = "dist"  # Or your build output directory
+
+[triggers]
+crons = ["*/10 * * * *"]  # Optional: Add scheduled cron jobs
 
 # Cloudflare Pages integration (for static assets)
 [pages]
 bucket = "./public"
 include = ["**/*"]
-exclude = ["node_modules"]
+exclude = ["node_modules", ".env*"]
 
 # R2 Storage for OCR results
 [[r2_buckets]]
-binding = "MY_BUCKET"
+binding = "OCR_STORAGE"  # Changed from MY_BUCKET for clarity
 bucket_name = "next-starter-template-ocr-storage"
+preview_bucket_name = "next-starter-template-ocr-storage-preview"  # For development
