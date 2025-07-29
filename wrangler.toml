@@ -1,4 +1,4 @@
-name = "next-starter-template"
+name = "visual-app"
 compatibility_date = "2025-07-29"
 node_compat = true  # Required if using Node.js-specific features
 
