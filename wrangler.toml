@@ -1,4 +1,4 @@
-name = "stone4go"
+name = "next-starter-template"
 compatibility_date = "2025-07-28"
 main = "worker.js"
 
@@ -11,4 +11,4 @@ exclude = ["node_modules"]
 # R2 Storage for OCR results
 [[r2_buckets]]
 binding = "MY_BUCKET"
-bucket_name = "stone4go-ocr-storage"
+bucket_name = "next-starter-template-ocr-storage"
