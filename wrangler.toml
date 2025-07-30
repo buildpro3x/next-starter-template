@@ -7,6 +7,7 @@ node_compat = true  # Required if using Node.js-specific features
 [build]
 command = "npm install && npm run build"
 upload_dir = "dist"  # Or your build output directory
+pages_build_output_dir = "out"
 
 [triggers]
 crons = ["*/10 * * * *"]  # Optional: Add scheduled cron jobs
