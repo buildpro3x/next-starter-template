@@ -1,0 +1,30 @@
+name: Deploy to Cloudflare & Vercel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cloudflare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install && npm run build
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ XlmDChgaV54APBQWPsfLVsOlXqFkBaJpj-iN0Jvs }}
+          accountId: ${{ f24da17bd14d1a55dd7ecb006dd1146a }}
+          projectName: ${{ next-starter-template }}
+          directory: ./dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  vercel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install -g vercel
+      - run: vercel pull --yes --environment=production --token=${{ q8c7AvGveKppq4DBH6x9Ppi5 }}
+      - run: vercel build --prod --token=${{ q8c7AvGveKppq4DBH6x9Ppi5 }}
+      - run: vercel deploy --prebuilt --prod --token=${{ q8c7AvGveKppq4DBH6x9Ppi5 }}
