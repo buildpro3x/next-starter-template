@@ -33,4 +33,4 @@ preview_bucket_name = "subscriber-upload-storage-preview"
 [[d1_databases]]
 binding = "DB"
 database_name = "quarry_archive"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "9959a568-470d-4418-887a-dc51206eb768"
